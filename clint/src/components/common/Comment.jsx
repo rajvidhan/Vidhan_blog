@@ -1,9 +1,9 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { FaThumbsUp } from "react-icons/fa";
 
-
-const Comment = ({comment}) => {
+const Comment = ({comment,onLike}) => {
 const userId= comment.userId;
 const [userData,setUserData] = useState(null);
 const {theme} = useSelector((state)=>state.theme)
@@ -42,6 +42,11 @@ useEffect(()=>{
               </span>
             </div>
             <p className={`text-gray-500 mb-2`}>{comment.content}</p>
+            <div>
+              <button>
+                <FaThumbsUp />
+              </button>
+            </div>
          </div>
     </div>
   )

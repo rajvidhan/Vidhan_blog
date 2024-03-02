@@ -53,7 +53,10 @@ const CommentSection = ({postId}) => {
         
 
     
+const handleLikes = async(commentId)=>{
 
+
+}
         
  
      
@@ -122,7 +125,7 @@ const CommentSection = ({postId}) => {
           </div>
           {
             comments.map((comment,index)=>(
-         <Comment key={index} comment={comment} />
+         <Comment key={index} comment={comment} onLike={handleLikes} />
               ))
           }
         </>

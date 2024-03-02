@@ -70,3 +70,56 @@ try{
   })
 }
 }
+
+
+
+
+exports.likeComment = async (req,res)=>{
+  try{
+  const UserId = req.user.id;
+  console.log("user id is ",UserId);
+
+    
+   const comment = await Comment.findById(req.params.commentId)
+    
+   if(!comment){
+    return res.json({
+      message:"comment does not exist!",
+      success:false
+    })
+   }
+
+   const isLiked = await Comment.find({
+    likes:UserId
+   });
+   if(!isLiked){
+    comment.numberOfLikes += 1;
+    await Comment.findByIdAndUpdate(req.params.commentId,{
+    $push:{
+      likes:UserId
+    }
+    },{new:true})
+   }else{
+    comment.numberOfLikes -= 1;
+    await Comment.findByIdAndUpdate(req.params.commentId,{
+      $pull:{
+        likes:UserId
+      }
+      },{new:true})
+   }
+
+
+   const updatedComment = await Comment.findById(req.params.commentId);
+    return res.json({
+      data:updatedComment,
+      message:"successfull",
+      success:true
+    })
+  
+  }catch(error){
+    return res.json({
+      message:error.message,
+      success:false
+    })
+  }
+  }
