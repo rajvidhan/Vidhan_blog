@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+  
+
+
+
+body{
+    height: 100vh;
+}
+.ql-editor {
+    min-height: 18em;
+  }
+
+  .ql-bubble .ql-editor {
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+  }
+
+.post-content p{
+    margin-bottom:0.5rem;
+  }
+
+  .post-content h2{
+    font-size:1.4rem;
+   
+    font-family:sans-serif;
+    margin:1.5rem 0;
+  }
+  .post-content h1{
+    font-size:1.5rem;
+    font-weight:600;
+    font-family:sans-serif;
+    margin:1.5rem 0;
+  }
+
+  .post-content a {
+    color:rgb(73,19,199);
+    text-decoration:none;
+  }
+  .post-content a:hover {
+    color:rgb(26, 75, 222);
+    text-decoration:underline;
+  }
+
+  .dark .post-content a{
+    color:red;
+    
+  }
