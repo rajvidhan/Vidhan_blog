@@ -2,7 +2,10 @@ import { Button, Textarea } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import { CreateComment } from "../../services/operations/userDetaillsApi";
+import {
+  CreateComment,
+  Editcomment,
+} from "../../services/operations/userDetaillsApi";
 import Comment from "./common/Comment";
 const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,8 +13,6 @@ const CommentSection = ({ postId }) => {
   const { theme } = useSelector((state) => state.theme);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,6 +83,26 @@ const CommentSection = ({ postId }) => {
     }
   };
 
+  const handledit = async (commentId, CommentText) => {
+    const formData = new FormData();
+    formData.append("id", commentId);
+    formData.append("comentdata", CommentText);
+    const res = await Editcomment(formData, token);
+
+    if (res) {
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                content: res.content,
+              }
+            : comment
+        )
+      );
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto w-full p-3 ">
       {currentUser ? (
@@ -148,7 +169,12 @@ const CommentSection = ({ postId }) => {
             </div>
           </div>
           {comments.map((comment, index) => (
-            <Comment key={index} comment={comment} onLike={handleLikes} />
+            <Comment
+              key={index}
+              comment={comment}
+              onLike={handleLikes}
+              onEdit={handledit}
+            />
           ))}
         </>
       )}

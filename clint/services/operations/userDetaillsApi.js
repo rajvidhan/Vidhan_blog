@@ -12,7 +12,8 @@ const {
     FETCH_USER_DETAILS,
     DELETE_USER_DETAILS,
     CREATE_COMMENT,
-    
+    EDIT_COMMENT,
+    DELETE_COMMENT
 } = userEndpoints;
 
 
@@ -300,3 +301,62 @@ export const CreateComment = async (data,token)=>{
   return result 
 }
 
+export const Editcomment = async (data,token)=>{
+  const toastId = toast.loading("Loding...");
+ 
+  let result = null;
+  try{
+
+ const response = await apiConnector("PUT",EDIT_COMMENT,data,{
+  Authorization:`Bearer ${token}`
+ });
+
+ console.log("the response of edit the comment ..",response)
+   
+
+  if(!response.data.success){
+    throw new Error(response.data.message) 
+  }
+
+
+
+    result = response.data.data;
+    toast.success("Comment Edit SuccessFully");
+
+  }catch(error){
+    console.log(error);
+    toast.error("Can't Edit The Comment");
+  }
+  toast.dismiss(toastId)
+  return result 
+}
+
+
+export const DeleteComment = async (data)=>{
+  const toastId = toast.loading("Loding...");
+ 
+  let result = null;
+  try{
+
+ const response = await apiConnector("DELETE",DELETE_COMMENT,data);
+
+ console.log("the response of delete the comment ..",response)
+   
+
+  if(!response.data.success){
+    throw new Error(response.data.message) 
+  }
+
+
+
+    result = true;
+    toast.success("Comment Delete SuccessFully");
+
+  }catch(error){
+    console.log(error);
+    result=false;
+    toast.error("Can't Delete The Comment");
+  }
+  toast.dismiss(toastId)
+  return result 
+}

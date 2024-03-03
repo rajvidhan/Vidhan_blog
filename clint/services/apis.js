@@ -15,5 +15,6 @@ export const userEndpoints = {
   FETCH_USER_DETAILS : BASE_URL + "/profile/getUsers",
   DELETE_USER_DETAILS : BASE_URL + "/profile/deleteUser",
   CREATE_COMMENT:BASE_URL + "/comment/create-comment" ,
- 
+ EDIT_COMMENT:BASE_URL+ "/comment/edit-comment",
+ DELETE_COMMENT:BASE_URL+"/comment/delete-comment"
 }

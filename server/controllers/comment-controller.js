@@ -130,3 +130,51 @@ exports.likeComment = async (req, res) => {
     });
   }
 };
+
+
+exports.EditComment = async (req,res)=>{
+  try{
+    const {comentdata,id} = req.body;
+    
+
+    const updatedcomment = await Comment.findByIdAndUpdate(id,{
+      content:comentdata,
+
+    },{new:true});
+
+
+   return res.json({
+    success:true,
+    message:"success" ,
+    data:updatedcomment
+ })
+
+
+  }catch(error){
+    return res.json({
+      message:"Edit failed",
+      success:false 
+    })
+  }
+}
+
+
+exports.DeleteComment= async(req,res)=>{
+  try{
+
+    const {commentId} = req.body;
+
+   await Comment.findByIdAndDelete(commentId);
+
+    return res.json({
+      message:"successfull",
+      success:true
+    })
+
+  }catch(error){
+    return res.json({
+      message:"false",
+      success:false
+    })
+  }
+}

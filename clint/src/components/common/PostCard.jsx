@@ -5,7 +5,7 @@ import { MdDeleteSweep } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
 
 import { useSelector } from "react-redux";
-import ConfirmationModal from "./confirmationModal";
+import ConfirmationModal from "../../components/common/ConfirmationModal"
 import { DeletePOST } from "../../../services/operations/userDetaillsApi";
 import { Link } from "react-router-dom";
 
