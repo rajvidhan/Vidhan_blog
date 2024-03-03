@@ -7,7 +7,7 @@ const Comment = ({comment,onLike}) => {
 const userId= comment.userId;
 const [userData,setUserData] = useState(null);
 const {theme} = useSelector((state)=>state.theme)
-
+const {currentUser} = useSelector((state)=>state.user)
 
 useEffect(()=>{
 
@@ -28,6 +28,8 @@ useEffect(()=>{
 
 },[])
 
+console.log('commet is ',comment);
+console.log("kjfk",comment.likes.includes(currentUser._id))
 
   return (
     <div className={`flex p-4 border-b ${theme==="dark" && "border-gray-600 text-sm"}`}>
@@ -42,10 +44,15 @@ useEffect(()=>{
               </span>
             </div>
             <p className={`text-gray-500 mb-2`}>{comment.content}</p>
-            <div>
-              <button>
-                <FaThumbsUp />
+            <div className='flex items-center pt-2 text-xs border-t max-w-fit gap-2'>
+              <button type='button' onClick={()=>onLike(comment._id)} className={` ${currentUser && comment.likes.includes(currentUser._id) ? "text-blue-500":"text-gray-400"} hover:text-blue-500 `}>
+                <FaThumbsUp className='text-sm ' />
               </button>
+              <span className='text-gray-400'>
+                {
+                  comment.numberOfLikes > 0 && comment.numberOfLikes + " "+(comment.numberOfLikes=== 1 ? "like":"likes")
+                }
+              </span>
             </div>
          </div>
     </div>

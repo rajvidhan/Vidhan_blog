@@ -1,68 +1,86 @@
 import { Button, Textarea } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, Link, useParams } from "react-router-dom";
+import { Form, Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { CreateComment } from "../../services/operations/userDetaillsApi";
 import Comment from "./common/Comment";
-const CommentSection = ({postId}) => {
-
+const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
-  const {token} = useSelector((state)=>state.user);
-  const {theme} = useSelector((state)=>state.theme)
+  const { token } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
   const [comment, setComment] = useState("");
-  const [comments,setComments] = useState([]);
- 
-  console.log("postId is ",postId)
+  const [comments, setComments] = useState([]);
 
- const handleSubmit = async (e)=>{
+ 
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(comment.length > 200){
-        return;
+    if (comment.length > 200) {
+      return;
     }
-    try{   
-      const result = await CreateComment({content:comment,postId:postId,userId:currentUser._id},token);
-      if(result){
+    try {
+      const result = await CreateComment(
+        { content: comment, postId: postId, userId: currentUser._id },
+        token
+      );
+      if (result) {
         setComment("");
         setComments([result, ...comments]);
-      }    
-    }catch(err){
+      }
+    } catch (err) {
       console.log(err);
-
     }
- }
+  };
 
- 
-
-  useEffect(()=>{
-   
-    const fetchComment = async()=>{
-       try{
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
         const res = await fetch(`/api/v1/comment/allcomments/${postId}`);
-      
-       if(res.ok){
-        const data = await res.json();       
-        setComments(data);      
-       }
-       }catch(error){
-        console.log(error)
-       }
 
+        if (res.ok) {
+          const data = await res.json();
+          setComments(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchComment();
+  }, [postId]);
+
+  const navigate = useNavigate();
+
+  const handleLikes = async (commentId) => {
+    try {
+      if (currentUser) {
+        const res = await fetch(`/api/v1/comment/likeComment/${commentId}`, {
+          method: "PUT",
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          console.log("hello bhai data is ", data.updatedComment, commentId);
+
+          setComments(
+            comments.map((comment) =>
+              comment._id === commentId
+                ? {
+                    ...comment,
+                    likes: data.updatedComment.likes,
+                    numberOfLikes: data.updatedComment.likes.length,
+                  }
+                : comment
+            )
+          );
+        } else {
+          navigate("/login");
+          return;
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
-    fetchComment();   
-  },[postId])
-        
-
-    
-const handleLikes = async(commentId)=>{
-
-
-}
-        
- 
-     
- 
-
-
+  };
 
   return (
     <div className="max-w-2xl mx-auto w-full p-3 ">
@@ -84,14 +102,17 @@ const handleLikes = async(commentId)=>{
         <>
           <div className="text-sm flex gap-1 text-teal-500 my-5">
             You must be login to comment.
-            <Link
-            className="text-blue-500 hover:underline"
-            to={"/login"}>Login</Link>
+            <Link className="text-blue-500 hover:underline" to={"/login"}>
+              Login
+            </Link>
           </div>
         </>
       )}
       {currentUser && (
-        <form onSubmit={handleSubmit} className="border border-teal-500 rounded-md p-3">
+        <form
+          onSubmit={handleSubmit}
+          className="border border-teal-500 rounded-md p-3"
+        >
           <Textarea
             placeholder="Add a comment..."
             rows={"3"}
@@ -101,15 +122,18 @@ const handleLikes = async(commentId)=>{
           />
           <div className="flex justify-between items-center mt-5">
             <p className="text-gray-500 text-xs">
-              <span className={`${theme === "light"? "text-black":"text-white"}`}>{200 - comment.length}{" "}</span>characters remaining
+              <span
+                className={`${theme === "light" ? "text-black" : "text-white"}`}
+              >
+                {200 - comment.length}{" "}
+              </span>
+              characters remaining
             </p>
-            {
-              comment && (
-                <Button outline gradientDuoTone="purpleToPink" type="submit">
-                        Post
-                  </Button>
-              )
-            }
+            {comment && (
+              <Button outline gradientDuoTone="purpleToPink" type="submit">
+                Post
+              </Button>
+            )}
           </div>
         </form>
       )}
@@ -120,14 +144,12 @@ const handleLikes = async(commentId)=>{
           <div className="text-sm my-5 flex items-center gap-1">
             <p>Comments</p>
             <div className="border border-gray-400 py-1 px-2 rounded-sm">
-               <p>{comments.length}</p>
+              <p>{comments.length}</p>
             </div>
           </div>
-          {
-            comments.map((comment,index)=>(
-         <Comment key={index} comment={comment} onLike={handleLikes} />
-              ))
-          }
+          {comments.map((comment, index) => (
+            <Comment key={index} comment={comment} onLike={handleLikes} />
+          ))}
         </>
       )}
     </div>
