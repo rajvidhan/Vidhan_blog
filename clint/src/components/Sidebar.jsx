@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Sidebar} from "flowbite-react"
 import { HiArrowSmLeft, HiDocumentText, HiUser} from 'react-icons/hi';
+import { FaComments } from "react-icons/fa6";
 import { useLocation, useNavigate } from 'react-router-dom';
 import {setUser,setToken} from "../redux/user/userSlice"
 import {useDispatch, useSelector} from "react-redux"
@@ -41,12 +42,17 @@ const DashboardSidebar = () => {
         {
           currentUser.isAdmin && (
            <>
+          
             <Sidebar.Item  active={tab==="posts"} href="/dashboard?tab=posts"  labelColor="dark"  icon={HiDocumentText}>
           Posts
           </Sidebar.Item>
+          <Sidebar.Item  active={tab==="comments"} href="/dashboard?tab=comments"  labelColor="dark"  icon={FaComments}>
+          Comments
+           </Sidebar.Item>
            <Sidebar.Item  active={tab==="users"} href="/dashboard?tab=users"  labelColor="dark"  icon={FaUsers}>
            Users
            </Sidebar.Item>
+           
            </>
 
           )

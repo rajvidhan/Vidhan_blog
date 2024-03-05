@@ -27,7 +27,7 @@ const POsts = () => {
   return (
     <div className={` ${theme === "light" ? "bg-[#fff]":"bg-richblack-800"} lg:w-full rounded-lg  m-5`} >
       <div className="flex flex-col m-4 ">
-        <h1 className={`text-4xl ${theme==="light" ? "text-black":"text-white"} font-bold`}>Posts</h1>
+        <h1 className={`text-4xl ${theme==="light" ? "text-black":"text-white"} `}>Posts 😊</h1>
 
        {
         posts && (

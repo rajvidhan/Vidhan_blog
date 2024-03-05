@@ -25,7 +25,7 @@ exports.createComment = async (req, res) => {
   } catch (error) {}
 };
 
-exports.AllComments = async (req, res) => {
+exports.AllCommentsofPost = async (req, res) => {
   try {
     const PostId = req.params.postId;
 
@@ -174,6 +174,24 @@ exports.DeleteComment= async(req,res)=>{
   }catch(error){
     return res.json({
       message:"false",
+      success:false
+    })
+  }
+}
+
+exports.AllComments = async (req,res)=>{
+  try{
+const allComments = await Comment.find();
+ return res.json({
+  data:allComments,
+  message:"success",
+  success:true
+ })
+
+
+  }catch(err){
+    return res.json({
+      message:"Cant fetch the comments",
       success:false
     })
   }
