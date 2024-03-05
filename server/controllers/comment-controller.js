@@ -163,7 +163,7 @@ exports.DeleteComment= async(req,res)=>{
   try{
 
     const {commentId} = req.body;
-
+  
    await Comment.findByIdAndDelete(commentId);
 
     return res.json({

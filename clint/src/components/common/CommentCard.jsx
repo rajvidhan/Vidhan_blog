@@ -3,17 +3,36 @@ import { useSelector } from "react-redux";
 import { MdDeleteSweep } from "react-icons/md";
 import { LuExternalLink } from "react-icons/lu";
 import ConfirmationModal from "./ConfirmationModal";
+import { DeleteComment } from "../../../services/operations/userDetaillsApi";
+import moment from "moment";
 
 const CommentCard = ({ comments }) => {
   const { theme } = useSelector((state) => state.theme);
   const [showmore, setShowMore] = useState(false);
   const [confirmationmodalData, setConfirmationModalData] = useState(null);
-
+  
   let Comments;
   if (showmore) {
     Comments = comments;
   } else {
     Comments = comments.slice(0, 7);
+  };
+
+  const handleDelete = async (commentId)=>{
+    try{
+     
+      const res = await DeleteComment({commentId:commentId});
+
+      if(res){
+       setConfirmationModalData(null);
+       window.location.reload();
+      }
+  
+
+    }catch(err){
+      console.log(err);
+      
+    }
   }
 
   return (
@@ -58,7 +77,7 @@ const CommentCard = ({ comments }) => {
                   Date:-
                 </span>
 
-                <span>{comment.updatedAt}</span>
+                <span> {moment(comment.createdAt).fromNow()}</span>
               </div>
               {/* content section  */}
               <div className="lg:w-[16%]   px-2 lg:py-3 py-1  ">
@@ -130,7 +149,7 @@ const CommentCard = ({ comments }) => {
                       text1: "Are you sure ??",
                       text2: "Would you want to delete this comment",
                       btn1Text: "Yes I'm Sure",
-                      btn1Handler: () => setConfirmationModalData(null),
+                      btn1Handler: () => handleDelete(comment._id),
                       btn2Text: "No",
                       btn2Handler: () => setConfirmationModalData(null),
                     })
