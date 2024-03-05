@@ -104,9 +104,10 @@ exports.GetUsers = async (req,res)=>{
     }
     
     const users = await User.find()
- 
+    const totaluser = users.length;
     return res
     .json({
+      totaluser:totaluser,
       data:users,
       message: "User data sended",
       success: true,

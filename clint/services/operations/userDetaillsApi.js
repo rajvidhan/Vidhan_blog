@@ -232,7 +232,7 @@ export const fetchAllUsers = async(token)=>{
     
 
     
-    result = response.data.data
+    result = response.data
   
   }catch(error){
     console.log(error);  

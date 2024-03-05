@@ -1,4 +1,4 @@
-import React, { useSyncExternalStore } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaMoon,FaSun } from "react-icons/fa";
@@ -28,7 +28,7 @@ const Header = () => {
     dispatch(setUser(null));
     dispatch(setToken(null));
   }
-  
+
 
   return (
     <Navbar className="border-b-2">
@@ -98,12 +98,10 @@ const Header = () => {
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
-        <Navbar.Link as={"div"} active={path === "/about"}>
-          <Link to="/about">About</Link>
+        <Navbar.Link as={"div"}  active={path === "/about"}>
+          <Link   to="/about" >About</Link>
         </Navbar.Link>
-        <Navbar.Link as={"div"} active={path === "/projects"}>
-          <Link to="/projects">Projects</Link>
-        </Navbar.Link>
+       
       </Navbar.Collapse>
     </Navbar>
   );

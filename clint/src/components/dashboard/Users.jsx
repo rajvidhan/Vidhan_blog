@@ -12,8 +12,9 @@ const {token} = useSelector((state)=>state.user)
 useEffect(()=>{
     const fetchUsers = async ()=>{
         const result = await fetchAllUsers(token);
+       
         if(result){
-          setusers(result);
+          setusers(result.data);
         }
     }
     fetchUsers();

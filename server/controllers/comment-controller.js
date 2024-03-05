@@ -180,8 +180,9 @@ exports.DeleteComment= async(req,res)=>{
 }
 
 exports.AllComments = async (req,res)=>{
-  try{
+try{
 const allComments = await Comment.find();
+// const totalcomments = 
  return res.json({
   data:allComments,
   message:"success",
