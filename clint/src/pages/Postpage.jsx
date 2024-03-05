@@ -5,11 +5,17 @@ import { fetchpostPreviousData } from "../../services/operations/userDetaillsApi
 import { useSelector } from "react-redux";
 import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
+import { userEndpoints } from "../../services/apis";
+import { apiConnector } from "../../services/apiConnector";
+import PostAnimatedCard from "../components/common/PostAnimatedCard";
+
 
 const Postpage = () => {
   const { postId } = useParams();
   const [postData, setPostData] = useState(null);
   const { token } = useSelector((state) => state.user);
+  const { ALL_POST } = userEndpoints;
+  const [posts,setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPostData = async () => {
@@ -22,6 +28,23 @@ const Postpage = () => {
 
     fetchPostData();
   }, [postId]);
+
+  useEffect(()=>{
+    const fetchPOsts = async () => {
+      const POSTS = await apiConnector("POST", ALL_POST, null, {
+        Authorization: `Bearer ${token}`,
+      });
+  
+      if (POSTS.data.success) {
+        setPosts(POSTS.data.data.slice(0,3));
+      }
+    };
+    fetchPOsts();
+  },[token])
+
+
+
+
 
   return (
     <div className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
@@ -59,6 +82,18 @@ const Postpage = () => {
         <CallToAction />
       </div>
       <CommentSection postId={postData && postData._id} />
+    
+      <div className="flex flex-col justify-center items-center mb-5">
+        <h1 className="text-xl  mt-5 ">Recent Articals</h1>
+        <div className="flex lg:flex-row flex-col gap-5 mt-5 ">
+{
+  posts && 
+  posts.map((post)=>(
+    <PostAnimatedCard key={post._id} post={post} />
+  ))
+}
+        </div>
+      </div>
     </div>
   );
 };

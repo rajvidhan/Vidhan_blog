@@ -80,10 +80,10 @@ exports.uploadimage = async (req, res) => {
 exports.fetchAllPosts = async (req, res) => {
   try {
     const userId = req.user.id;
-
+  
     const postDetails = await Post.find({ userId: userId }).sort({
       createdAt: -1,
-    });
+    })
     return res.json({
       message: "All posts fetch successfully",
       success: true,
