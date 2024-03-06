@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {  useSelector } from "react-redux";
+import { Button, Table } from 'flowbite-react';
+import { Link } from 'react-router-dom';
 import {
     HiAnnotation,
     HiArrowNarrowUp,
@@ -7,7 +9,13 @@ import {
     HiOutlineUserGroup,
   } from 'react-icons/hi';
 import { fetchAllUsers } from '../../../services/operations/userDetaillsApi';
+import { apiConnector } from '../../../services/apiConnector';
+
+import { userEndpoints } from "../../../services/apis";
+
+
 const DashboardCom = () => {
+    const { ALL_COMMENT,ALL_POST } = userEndpoints;
 
 const [users,setUsers] = useState([]);
 const [totalUser,setTotalUser] = useState("");
@@ -29,21 +37,34 @@ useEffect(()=>{
        }
     }
     fetchUser();
-    
-    const fetchPosts = async()=>{
 
+    const fetchPosts = async()=>{
+        const POSTS = await apiConnector("POST", ALL_POST, null, {
+            Authorization: `Bearer ${token}`,
+          });
+    
+          if (POSTS.data.success) {
+            setPosts(POSTS.data.data);
+            setTotalPost(POSTS.data.totalpost)
+          }
     }
+    fetchPosts();
 
     const fetchComments = async()=>{
-
+     const res = await apiConnector("GET", ALL_COMMENT, null);
+      if (res.data.success) {
+        setComments(res.data.data);
+        setTotalComment(res.data.totalcomments);
+      }
     }
+    fetchComments();
 },[token])
 
 
   return (
     <div className='p-3 md:mx-auto'>
       <div className='flex-wrap flex gap-4 justify-center'>
-        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
+        <div className='flex flex-col p-3 gap-4 md:w-72 w-full rounded-md shadow-md'>
           <div className='flex justify-between'>
             <div className=''>
               <h3 className='text-gray-500 text-md uppercase'>Total Users</h3>
@@ -65,7 +86,7 @@ useEffect(()=>{
               <h3 className='text-gray-500 text-md uppercase'>
                 Total Comments
               </h3>
-              <p className='text-2xl'>12</p>
+              <p className='text-2xl'>{totalComment}</p>
             </div>
             <HiAnnotation className='bg-indigo-600  text-white rounded-full text-5xl p-3 shadow-lg' />
           </div>
@@ -81,7 +102,7 @@ useEffect(()=>{
           <div className='flex justify-between'>
             <div className=''>
               <h3 className='text-gray-500 text-md uppercase'>Total Posts</h3>
-              <p className='text-2xl'>12</p>
+              <p className='text-2xl'>{totalpost}</p>
             </div>
             <HiDocumentText className='bg-richblack-200  text-white rounded-full text-5xl p-3 shadow-lg' />
           </div>
@@ -94,7 +115,8 @@ useEffect(()=>{
           </div>
         </div>
       </div>
-      {/* <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
+      {/* tabels */}
+      <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
         <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
           <div className='flex justify-between  p-3 text-sm font-semibold'>
             <h1 className='text-center p-2'>Recent users</h1>
@@ -113,7 +135,7 @@ useEffect(()=>{
                   <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                     <Table.Cell>
                       <img
-                        src={user.profilePicture}
+                        src={user.image}
                         alt='user'
                         className='w-10 h-10 rounded-full bg-gray-500'
                       />
@@ -180,7 +202,7 @@ useEffect(()=>{
               ))}
           </Table>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

@@ -83,10 +83,13 @@ exports.fetchAllPosts = async (req, res) => {
   
     const postDetails = await Post.find({ userId: userId }).sort({
       createdAt: -1,
-    })
+    });
+    
+    const totalpost =postDetails.length;
     return res.json({
       message: "All posts fetch successfully",
       success: true,
+      totalpost:totalpost,
       data: postDetails,
     });
   } catch (error) {
