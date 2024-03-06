@@ -83,6 +83,13 @@ window.onload = function() {
   navigate("/search")
 };
 
+let POST;
+if(showmore) {
+  POST = posts;
+} else {
+  POST = posts.slice(0, 6);
+}
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
@@ -140,18 +147,18 @@ window.onload = function() {
           )}
           {loading && <p className="text-xl text-gray-500">Loading...</p>}
           {!loading &&
-            posts &&
-            posts.map((post) => (
+            POST &&
+            POST.map((post) => (
               <PostAnimatedCard key={post._id} post={post} />
             ))}
-          {/* {showMore && (
+          {POST.length > 5&& (
           <button
-            onClick={handleShowMore}
+           onClick={()=>setShowMore(!showmore)}
             className='text-teal-500 text-lg hover:underline p-7 w-full'
           >
-            Show More
+            Show{`${showmore ? " Less":" More"}`}
           </button>
-        )} */}
+        )}
         </div>
       </div>
     </div>

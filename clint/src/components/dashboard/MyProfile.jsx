@@ -222,8 +222,8 @@ const MyProfile = () => {
           currentUser.isAdmin && (
            <Link to={"/create-post"}>
             <Button type="button"
-            gradientDuoTone={"purpleToPink"}
-            className="w-full my-[70px] p-1 flex "
+           color="gray"
+            className="w-full  my-[70px] p-1 flex "
             outline
             disabled={loading}
             >

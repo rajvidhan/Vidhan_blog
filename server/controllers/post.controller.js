@@ -81,7 +81,7 @@ exports.fetchAllPosts = async (req, res) => {
   try {
     const userId = req.user.id;
   
-    console.log("hey brother dekh new chij hai ",req.query.sort )
+   
   const sortDirection =  req.query.sort === "desc" ? -1 : 1;
 
     const postDetails = await Post.find({ 

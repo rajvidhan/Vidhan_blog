@@ -63,7 +63,7 @@ const Header = () => {
       <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
-          placeholder="Search..."
+          placeholder="Search..."          
           rightIcon={FaSearchengin}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -78,7 +78,7 @@ const Header = () => {
       <div className="flex gap-5 md:order-2">
         <Button
           onClick={() => dispatch(toggleTheme())}
-          className="w-12 h-10 hidden sm:inline"
+          className="w-12 h-10 "
           pill
           color="gray"
         >
