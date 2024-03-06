@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser")
 const {connectToCloudinary} = require("./config/cloudinary");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-
+const path = require("path");
 const app = express();
 
 
@@ -26,6 +26,8 @@ connectToCloudinary();
 
 require("./config/databaseConnection").connectdb();
 
+
+const __dirname1 = path.resolve();
 
 app.use(
 	cors({
@@ -48,8 +50,10 @@ app.use("/api/v1/post",postRoutes)
 app.use("/api/v1/comment",commentRoutes)
 
 
-
-
+app.use(express.static(path.join(__dirname1,'/clint/dist')))
+app.get("*",(req,res)=>{
+res.sendFile(path.join(__dirname1,'clint','dist','index.html'))
+})
 
 app.listen(3000,()=>{
     console.log("server is running on port 3000")
