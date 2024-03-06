@@ -5,6 +5,7 @@ require('dotenv').config();
 
 
 exports.connectdb = ()=>{
+  
     mongoose.connect(process.env.MONGO_URL).then(()=>{
         console.log("database is connected..brother")
     }).catch((err)=>{
