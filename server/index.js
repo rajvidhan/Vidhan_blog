@@ -7,7 +7,7 @@ const postRoutes= require("./routes/post");
 const commentRoutes = require("./routes/comment-route")
 const cookieParser = require("cookie-parser")
 const {connectToCloudinary} = require("./config/cloudinary");
-const cors = require("cors");
+
 const fileUpload = require("express-fileupload");
 const path = require("path");
 const app = express();
@@ -29,12 +29,7 @@ require("./config/databaseConnection").connectdb();
 
 const __dirname1 = path.resolve();
 
-app.use(
-	cors({
-		origin:"http://localhost:5173",
-		credentials:true,
-	})
-);
+
 // middlewares 
 app.use(express.json());
 app.use(cookieParser());
