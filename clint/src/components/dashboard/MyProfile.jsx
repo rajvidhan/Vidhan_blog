@@ -15,7 +15,7 @@ import {
   updateProfile,
 } from "../../../services/operations/userDetaillsApi";
 import { setToken, setUser } from "../../redux/user/userSlice";
-import ConfirmationModal from "../common/confirmationModal";
+import ConfirmationModal from "../common/ConfirmationModal";
 
 const MyProfile = () => {
   const dispatch = useDispatch();
