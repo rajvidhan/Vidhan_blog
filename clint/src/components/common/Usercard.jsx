@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import ConfirmationModal from "./confirmationModal";
+import ConfirmationModal from "./ConfirmationModal";
 import { MdDeleteSweep } from "react-icons/md";
 import { MdOutlineDoneOutline } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { DeleteUserByAd} from '../../../services/operations/userDetaillsApi';
-import { LuExternalLink } from 'react-icons/lu';
+
 const Usercard = ({users}) => {
 
 
