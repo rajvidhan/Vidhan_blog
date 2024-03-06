@@ -13,6 +13,7 @@ import CreatePost from "./pages/CreatePost"
 import UpdatePost from "./pages/UpdatePost"
 import Postpage from "./pages/Postpage"
 import ScrollToUp from "./components/ScrollToUp"
+import Search from "./pages/Search"
 
 function App() {
  
@@ -24,8 +25,10 @@ function App() {
    <Routes>
     <Route path="/" element={<Home />}  />
     <Route path="/about" element={<About />}  />
-  
+    <Route path="/search" element={<Search />}  />
 
+  
+    
     
     <Route  element={<PrivateRoute />}  >
       

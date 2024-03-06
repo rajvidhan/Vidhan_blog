@@ -1,34 +1,47 @@
-import React, { useState, useSyncExternalStore } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaMoon,FaSun } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import { FaSearchengin } from "react-icons/fa";
-import {toggleTheme} from '../redux/theme/theme.Slice'
-import {  HiLogout } from 'react-icons/hi';
-import {useDispatch, useSelector} from "react-redux"
+import { toggleTheme } from "../redux/theme/theme.Slice";
+import { HiLogout } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { setToken, setUser } from "../redux/user/userSlice";
 
-
 const Header = () => {
-
-
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // uselcation ka use krenge path ka pta krne k liye
   const path = useLocation().pathname;
-  const {currentUser} =  useSelector((state)=>state.user);
-  
+  const { currentUser } = useSelector((state) => state.user);
 
-  const {theme} = useSelector((state)=>state.theme);
-   
+  const { theme } = useSelector((state) => state.theme);
 
-  const handleSignOut = ()=>{
+  const handleSignOut = () => {
     navigate("/login");
     dispatch(setUser(null));
     dispatch(setToken(null));
-  }
+  };
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm",searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`)
+  };
 
   return (
     <Navbar className="border-b-2">
@@ -47,61 +60,65 @@ const Header = () => {
         Blog
       </Link>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
           placeholder="Search..."
           rightIcon={FaSearchengin}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="hidden lg:inline"
         />
       </form>
       {/* pill use for make little bit rounded  */}
-      <Button  className="w-12 h-10  lg:hidden" pill color="gray">
+      <Button className="w-12 h-10  lg:hidden" pill color="gray">
         <FaSearchengin />
       </Button>
 
-      <div  className="flex gap-5 md:order-2">
-        <Button onClick={()=>dispatch(toggleTheme())} className="w-12 h-10 hidden sm:inline" pill color="gray">
-       {
-        theme === "light" ? <FaSun /> : <FaMoon />
-       }
+      <div className="flex gap-5 md:order-2">
+        <Button
+          onClick={() => dispatch(toggleTheme())}
+          className="w-12 h-10 hidden sm:inline"
+          pill
+          color="gray"
+        >
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-       {
-        !currentUser ? (
+        {!currentUser ? (
           <Link to="/login">
-          <Button outline gradientDuoTone="purpleToBlue">
-            Login
-          </Button>
-           </Link>
-        ) :(
-          <Dropdown label={<Avatar 
-          alt="user"
-          img={currentUser.image}
-          rounded
-          />} inline >
-      <Dropdown.Header>
-        <span className="block text-sm">{currentUser.username}</span>
-        <span className="block truncate text-sm font-medium">{currentUser.email}</span>
-      </Dropdown.Header>
-      <Link to={"/dashboard?tab=profile"}>
-      <Dropdown.Item icon={CgProfile}>Profile</Dropdown.Item>
-      </Link>
-      <Dropdown.Divider />
-      <Dropdown.Item icon={HiLogout} onClick={()=>handleSignOut()}>Sign out</Dropdown.Item>
-    </Dropdown>
-
-        )
-       }
+            <Button outline gradientDuoTone="purpleToBlue">
+              Login
+            </Button>
+          </Link>
+        ) : (
+          <Dropdown
+            label={<Avatar alt="user" img={currentUser.image} rounded />}
+            inline
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">{currentUser.username}</span>
+              <span className="block truncate text-sm font-medium">
+                {currentUser.email}
+              </span>
+            </Dropdown.Header>
+            <Link to={"/dashboard?tab=profile"}>
+              <Dropdown.Item icon={CgProfile}>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item icon={HiLogout} onClick={() => handleSignOut()}>
+              Sign out
+            </Dropdown.Item>
+          </Dropdown>
+        )}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
-        <Navbar.Link as={"div"}  active={path === "/about"}>
-          <Link   to="/about" >About</Link>
+        <Navbar.Link as={"div"} active={path === "/about"}>
+          <Link to="/about">About</Link>
         </Navbar.Link>
-       
       </Navbar.Collapse>
     </Navbar>
   );

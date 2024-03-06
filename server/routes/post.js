@@ -9,7 +9,7 @@ const { createPost, uploadimage, fetchAllPosts, deletePost, fetchPreData, update
 
 router.post("/create-post",auth,createPost);
 router.post("/upload-image",uploadimage);
-router.post("/getAllPosts",auth,fetchAllPosts);
+router.get("/getAllPosts",auth,fetchAllPosts);
 router.delete("/deletePost",auth,deletePost);
 router.post("/fetchpredata",auth,fetchPreData);
 router.put("/updatePost",auth,updatepost);

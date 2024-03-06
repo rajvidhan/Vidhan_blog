@@ -81,8 +81,20 @@ exports.fetchAllPosts = async (req, res) => {
   try {
     const userId = req.user.id;
   
-    const postDetails = await Post.find({ userId: userId }).sort({
-      createdAt: -1,
+    console.log("hey brother dekh new chij hai ",req.query.sort )
+  const sortDirection =  req.query.sort === "desc" ? -1 : 1;
+
+    const postDetails = await Post.find({ 
+      ...(userId && { userId: userId  }),
+      ...(req.query.category && { category: req.query.category }),
+      ...(req.query.searchTerm && {
+        $or: [
+          { title: { $regex: req.query.searchTerm, $options: 'i' } },
+          { content: { $regex: req.query.searchTerm, $options: 'i' } },
+        ],
+      }),
+      }).sort({
+      createdAt: sortDirection,
     });
     
     const totalpost =postDetails.length;

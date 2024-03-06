@@ -31,7 +31,7 @@ const Postpage = () => {
 
   useEffect(()=>{
     const fetchPOsts = async () => {
-      const POSTS = await apiConnector("POST", ALL_POST, null, {
+      const POSTS = await apiConnector("GET", ALL_POST, null, {
         Authorization: `Bearer ${token}`,
       });
   
