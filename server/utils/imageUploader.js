@@ -3,7 +3,7 @@ const fs = require("fs")
 
 
 exports.uploadImageToCloudinary = async (file,folder,height,quality) =>{
-   
+        console.log("hello")
            const options ={folder};
           
            if(height){
@@ -12,6 +12,7 @@ exports.uploadImageToCloudinary = async (file,folder,height,quality) =>{
            if(quality){
             options.quality = quality;
            }
-           options.resource_type ="auto";        
+           options.resource_type ="auto"; 
+           console.log(options)       
            return await cloudinary.uploader.upload(file.tempFilePath,options);  
 }

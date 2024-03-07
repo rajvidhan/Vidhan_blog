@@ -55,7 +55,7 @@ exports.uploadimage = async (req, res) => {
   try {
     const image = req.files.image;
 
-    console.log("image", image);
+   
 
     const imageUrl = await uploadImageToCloudinary(
       image,
@@ -63,6 +63,7 @@ exports.uploadimage = async (req, res) => {
       1000,
       1000
     );
+   
     return res.json({
       message: "Image uploaded successfully",
       success: true,

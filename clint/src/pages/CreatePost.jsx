@@ -38,7 +38,7 @@ const CreatePost = () => {
     const formData = new FormData();
     formData.append("image", image);
     const ImageUrl = await UploadImage(formData);
-
+    console.log("image url in front ",ImageUrl)
     if (ImageUrl) {
       setImageFileUrl(ImageUrl);
     }

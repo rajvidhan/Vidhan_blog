@@ -112,6 +112,7 @@ export const UploadImage = async (image)=>{
   let result = null;
   const toastId = toast.loading("Loading...")
   try{
+    console.log("before")
     const response = await apiConnector("POST",UPLOAD_IMAGE,image);
 
     console.log('response of upload image is ', response);
