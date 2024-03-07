@@ -71,6 +71,8 @@ exports.likeComment = async (req, res) => {
   try {
     const UserId = req.user.id;
 
+     console.log("hello",UserId);
+     console.log(req.params.commentId);
     // validation
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {

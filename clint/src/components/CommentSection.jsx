@@ -55,6 +55,7 @@ const CommentSection = ({ postId }) => {
 
   const handleLikes = async (commentId) => {
     try {
+      console.log("comment id is",commentId)
       if (currentUser) {
         const res = await fetch(`/api/v1/comment/likeComment/${commentId}`, {
           method: "PUT",
