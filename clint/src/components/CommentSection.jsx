@@ -27,6 +27,7 @@ const CommentSection = ({ postId }) => {
       if (result) {
         setComment("");
         setComments([result, ...comments]);
+        window.location.reload();
       }
     } catch (err) {
       console.log(err);

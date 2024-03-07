@@ -40,12 +40,14 @@ const Search = () => {
       const res = await fetch(`/api/v1/post/getAllPosts?${searchQuery}`);
       if (res.ok) {
         const data = await res.json();
+        console.log("data is ",data)
         setPosts(data.data);
       }
     };
     fetchPOsts();
   }, [location.search]);
 
+  console.log("posts are ", posts)
 
 const handleChange = (e)=>{
   if(e.target.id === "searchTerm"){

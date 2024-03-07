@@ -82,27 +82,33 @@ exports.fetchAllPosts = async (req, res) => {
   try {
     const userId = req.user.id;
   
-   
+  
   const sortDirection =  req.query.sort === "desc" ? -1 : 1;
+  
+
 
     const postDetails = await Post.find({ 
-      ...(userId && { userId: userId  }),
+      ...(userId && { userId: userId  }),    
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.searchTerm && {
-        $or: [
-          { title: { $regex: req.query.searchTerm, $options: 'i' } },
-          { content: { $regex: req.query.searchTerm, $options: 'i' } },
+        $or:[
+          { title:{ $regex:req.query.searchTerm,$options:'i'}},
+          { content:{ $regex:req.query.searchTerm,$options:'i'}},
         ],
       }),
       }).sort({
       createdAt: sortDirection,
     });
     
-    const totalpost =postDetails.length;
+    const totalpost = postDetails.length;
+
+ const postdetails2 = await Post.find();
+
     return res.json({
       message: "All posts fetch successfully",
       success: true,
       totalpost:totalpost,
+      data2:postdetails2,
       data: postDetails,
     });
   } catch (error) {

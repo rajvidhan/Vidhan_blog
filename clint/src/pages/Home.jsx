@@ -18,14 +18,13 @@ useEffect(()=>{
       });
 
       if (POSTS.data.success) {
-        setPosts(POSTS.data.data);
-        
+        setPosts(POSTS.data.data2);       
       }
 }
 fetchPosts();
-},[]);
+},[token]);
 
-
+console.log("the posts are",posts)
 
   return (
     <div>

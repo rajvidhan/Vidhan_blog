@@ -47,7 +47,8 @@ const Postpage = () => {
 
 
   return (
-    <div className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
+  <div>
+      <div className="p-3 flex max-w-6xl flex-col mx-auto min-h-screen">
       <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
         {postData && postData.title}
       </h1>
@@ -74,7 +75,7 @@ const Postpage = () => {
       </div>
 
       <div
-       className="p-3 max-w-2xl mx-auto post-content"
+       className="p-3 max-w-4xl mx-auto w-full post-content"
       dangerouslySetInnerHTML={{__html:postData && postData.content}}>
     
       </div>
@@ -95,6 +96,7 @@ const Postpage = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
