@@ -12,7 +12,7 @@ const fileUpload = require("express-fileupload");
 const path = require("path");
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: 'https://vidhan-blog-1.onrender.com' }));
 
 
 app.use(fileUpload({
