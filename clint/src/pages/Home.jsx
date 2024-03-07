@@ -18,7 +18,7 @@ useEffect(()=>{
       });
 
       if (POSTS.data.success) {
-        setPosts(POSTS.data.data2);       
+        setPosts(POSTS.data.data);       
       }
 }
 fetchPosts();

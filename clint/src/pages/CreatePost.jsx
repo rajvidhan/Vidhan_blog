@@ -11,11 +11,10 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
-  const { register, setValue, getValues, reset, handleSubmit } = useForm();
+  const { register,setValue,getValues,reset,handleSubmit}=useForm();
   const {theme} = useSelector((state)=>state.theme)
   const navigate = useNavigate();
-  const [ImageFileUrl, setImageFileUrl] = useState(null);
-
+  const [ImageFileUrl,setImageFileUrl] = useState(null);
   const { token } = useSelector((state) => state.user);
   console.log("token is ", token);
 
@@ -45,11 +44,11 @@ const CreatePost = () => {
   };
 
   const onsubmit = async (data) => {
-    console.log("data is", data);
+    
     const formData = new FormData();
     formData.append("title", data.title);
 
-    if (ImageFileUrl) {
+    if(ImageFileUrl) {
       formData.append("image", ImageFileUrl);
     }
 
@@ -60,12 +59,10 @@ const CreatePost = () => {
     if (result) {
       navigate(`/post/${result._id}`);
     }
-  };
+  }
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-     
-
       <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col gap-10">
       <div className="flex flex-col gap-4 sm:flex-row  justify-between">
           <TextInput
@@ -82,7 +79,6 @@ const CreatePost = () => {
             <option value={"react"}>Reactjs</option>
             <option value={"python"}>Python</option>
             <option value={"Machine Learning"}>Machine Learning</option>
-
           </Select>
         </div>
 

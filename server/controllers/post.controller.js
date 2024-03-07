@@ -55,15 +55,13 @@ exports.uploadimage = async (req, res) => {
   try {
     const image = req.files.image;
 
-   
-
     const imageUrl = await uploadImageToCloudinary(
       image,
       process.env.FOLDER_NAME,
       1000,
       1000
     );
-   
+
     return res.json({
       message: "Image uploaded successfully",
       success: true,
@@ -80,35 +78,36 @@ exports.uploadimage = async (req, res) => {
 
 exports.fetchAllPosts = async (req, res) => {
   try {
+
+
     const userId = req.user.id;
-  
-  
-  const sortDirection =  req.query.sort === "desc" ? -1 : 1;
-  
+    const isAdmin = req.user.isAdmin;
 
-
-    const postDetails = await Post.find({ 
-      ...(userId && { userId: userId  }),    
+    console.log("hey brother ", isAdmin)
+    
+    const sortDirection = req.query.sort === "desc" ? -1 : 1;
+console.log("user id is ",userId)
+    const postDetails = await Post.find({
+      ...(userId && isAdmin && { userId: userId }),
       ...(req.query.category && { category: req.query.category }),
       ...(req.query.searchTerm && {
-        $or:[
-          { title:{ $regex:req.query.searchTerm,$options:'i'}},
-          { content:{ $regex:req.query.searchTerm,$options:'i'}},
+        $or: [
+          { title: { $regex: req.query.searchTerm, $options: "i" } },
+          { content: { $regex: req.query.searchTerm, $options: "i" } },
         ],
       }),
-      }).sort({
+    }).sort({
       createdAt: sortDirection,
     });
-    
+
     const totalpost = postDetails.length;
 
- const postdetails2 = await Post.find();
-
+    
     return res.json({
       message: "All posts fetch successfully",
       success: true,
-      totalpost:totalpost,
-      data2:postdetails2,
+      totalpost: totalpost,
+     
       data: postDetails,
     });
   } catch (error) {

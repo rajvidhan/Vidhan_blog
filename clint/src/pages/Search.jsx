@@ -6,7 +6,6 @@ import PostAnimatedCard from "../components/common/PostAnimatedCard";
 import { useSelector } from "react-redux";
 
 const Search = () => {
-  const { token } = useSelector((state) => state.user);
   const navigate= useNavigate();
   const [sidebarData, setSideBarData] = useState({
     searchTerm: "",
@@ -40,7 +39,7 @@ const Search = () => {
       const res = await fetch(`/api/v1/post/getAllPosts?${searchQuery}`);
       if (res.ok) {
         const data = await res.json();
-        console.log("data is ",data)
+        console.log("data is ",data);
         setPosts(data.data);
       }
     };
@@ -64,13 +63,13 @@ const handleChange = (e)=>{
 }
 
 const handleSubmit = (e)=>{
+
   e.preventDefault();
 
   const urlParams = new URLSearchParams(location.search);
   urlParams.set("searchTerm",sidebarData.searchTerm)
   urlParams.set("sort",sidebarData.sort)
   urlParams.set("category",sidebarData.category)
-
   const searchQuery = urlParams.toString();
   navigate(`/search?${searchQuery}`);
 
@@ -91,6 +90,7 @@ if(showmore) {
 } else {
   POST = posts.slice(0, 6);
 }
+
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -131,7 +131,7 @@ if(showmore) {
               <option value={"javascript"}>Javascript</option>
               <option value={"react"}>Reactjs</option>
               <option value={"python"}>Python</option>
-              <option value={"machinelearning"}>Machine Learning</option>
+              <option value={"Machine Learning"}>Machine Learning</option>
             </Select>
           </div>
           <Button type="submit" outline gradientDuoTone="purpleToPink">
