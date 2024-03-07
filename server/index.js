@@ -7,12 +7,17 @@ const postRoutes= require("./routes/post");
 const commentRoutes = require("./routes/comment-route")
 const cookieParser = require("cookie-parser")
 const {connectToCloudinary} = require("./config/cloudinary");
-
+const cors = require("cors")
 const fileUpload = require("express-fileupload");
 const path = require("path");
 const app = express();
 
-
+app.use(
+	cors({
+		origin:"https://vidhan-blog-1.onrender.com/",
+		credentials:true,
+	})
+);
 
 
 app.use(fileUpload({
