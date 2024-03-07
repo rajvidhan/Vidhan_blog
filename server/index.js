@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
 	cors({
-		origin:"https://vidhan-blog-1.onrender.com/",
+		origin:"",
 		credentials:true,
 	})
 );
